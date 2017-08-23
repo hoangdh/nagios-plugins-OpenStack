@@ -53,11 +53,11 @@ case $i in
 		exit 1
 		;;	
 	0) 
-		echo "CIRTICAL. Neutron-server doesn't running."
+		echo "CIRTICAL. Neutron-server is not running."
 		exit 2
 		;;
 	*)
-		echo "UNKNOWN. Neutron-server or agent don't running."
+		echo "UNKNOWN. Neutron-server or agent is/are not running."
 		exit 3
 		;;	
 esac
