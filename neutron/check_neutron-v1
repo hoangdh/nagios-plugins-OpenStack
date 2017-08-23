@@ -1,0 +1,46 @@
+#!/bin/bash
+###
+#
+# Check Neutron Service
+# Author: HoangDH - daohuyhoang87@gmail.com
+# Release: 23/8/2017 - 1:35PM
+#
+###
+i=0
+f=$(systemctl status neutron-server | grep 'active (running)')
+if [ -z "$f" ]
+	then
+		i=0
+	else
+		for service in neutron-openvswitch-agent neutron-metadata-agent neutron-dhcp-agent neutron-l3-agent
+		do 
+			flag=$(systemctl status $service | grep 'active (running)')
+			if [ -n "$flag" ]
+			then
+				i=$(expr $i + 1)
+			else
+				echo $service >> /tmp/neutron-agent.h2
+			fi
+		done 
+fi
+s=`cat /tmp/neutron-agent.h2`
+rm -rf /tmp/neutron-agent.h2
+case $i in
+	4)
+		echo "OK. Neutron-server is running."
+		exit 0
+		;;
+	[1-3]*)
+		echo "WARNING. $s is/are not running."
+		exit 1
+		;;	
+	0) 
+		echo "CIRTICAL. Neutron-server doesn't running."
+		exit 2
+		;;
+	*)
+		echo "UNKNOWN. Neutron-server or agent don't running."
+		exit 3
+		;;	
+esac
+	
