@@ -1,0 +1,145 @@
+## Các câu lệnh check tài nguyên VM trong KVM
+
+- Sử dụng lệnh `virsh`
+
+```
+virsh --help | grep 'dom*'
+...
+domblkerror                    Show errors on block devices
+domblkinfo                     domain block device size information
+domblklist                     list all domain blocks
+domblkstat                     get device block stats for a domain
+domcontrol                     domain control interface state
+domif-getlink                  get link state of a virtual interface
+domiflist                      list all domain virtual interfaces
+domifstat                      get network interface stats for a domain
+dominfo                        domain information
+dommemstat                     get memory statistics for a domain
+domstate                       domain state
+list                           list domains
+...
+```
+
+### 1. UP/DOWN
+- domstate: Trạng thái của VM
+
+```
+root@ubuntu:/opt# virsh domstate ctl
+running
+```
+
+- domcontrol: Có thể điều khiển VM
+
+```
+root@ubuntu:/opt# virsh  domcontrol ctl
+ok
+```
+
+### 2. DISK 
+- domblklist: Liệt kê các disk vm đang sử dụng
+
+```
+root@ubuntu:/opt# virsh  domblklist ctl
+Target     Source
+------------------------------------------------
+hda        /var/lib/libvirt/images/ctl.qcow2
+hdb        /var/lib/libvirt/images/ctl-1.img
+hdc        -
+```
+
+- domblkinfo: Thông tin của disk <thêm tên disk>
+
+```
+root@ubuntu:/opt# virsh  domblkinfo ctl hda
+Capacity:       107374182400
+Allocation:     10549280768
+Physical:       10549280768
+```
+
+- domblkstat: Trạng thái của disk đang gắn vào VM
+
+```
+root@ubuntu:/opt# virsh domblkstat ctl hda
+hda rd_req 204710
+hda rd_bytes 4300773376
+hda wr_req 1961378
+hda wr_bytes 30202508800
+hda flush_operations 1247104
+hda rd_total_times 138541109448
+hda wr_total_times 223776977330
+hda flush_total_times 25881702514928
+```
+- domblkerror: Tìm disk lỗi
+
+```
+root@ubuntu:/opt# virsh domblkerror ctl
+No errors found
+```
+
+### 3. NETWORK/INTERFACE:
+
+- domiflist: Những card mạng đã gắn vào VM
+
+```
+root@ubuntu:/opt# virsh  domiflist ctl
+Interface  Type       Source     Model       MAC
+-------------------------------------------------------
+vnet7      bridge     br0        rtl8139     52:54:00:51:6a:bd
+vnet8      network    hostonly   rtl8139     52:54:00:bb:6f:b2
+```
+
+- domif-getlink: Những card mạng đang hoạt động
+
+```
+root@ubuntu:/opt# virsh domif-getlink ctl vnet7
+vnet7 default
+root@ubuntu:/opt# virsh domif-getlink ctl vnet8
+vnet8 default
+```
+
+- domifstat: Thống kê lưu lượng mạng
+
+```	
+root@ubuntu:/opt# virsh domifstat ctl vnet7
+vnet7 rx_bytes 505121239
+vnet7 rx_packets 2671044
+vnet7 rx_errs 0
+vnet7 rx_drop 0
+vnet7 tx_bytes 384746291
+vnet7 tx_packets 2143680
+vnet7 tx_errs 0
+vnet7 tx_drop 0
+```
+
+### 4. CPU
+
+- dominfo: Thông tin tổng thể của VM
+
+```
+root@ubuntu:/opt# virsh  dominfo ctl
+Id:             8
+Name:           ctl
+UUID:           676f3945-0f08-78c5-9f38-7b2770990e55
+OS Type:        hvm
+State:          running
+CPU(s):         2
+CPU time:       68264.6s
+Max memory:     5688320 KiB
+Used memory:    5688320 KiB
+Persistent:     yes
+Autostart:      disable
+Managed save:   no
+Security model: apparmor
+Security DOI:   0
+Security label: libvirt-676f3945-0f08-78c5-9f38-7b2770990e55 (enforcing)
+```
+               
+### 5. RAM 
+- dommemstat: Kiểm tra RAM và SWAP của VM
+
+```
+root@ubuntu:/opt# virsh  dommemstat ctl
+actual 5688320
+swap_in 15197472401915904
+rss 5599860
+```
