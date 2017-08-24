@@ -29,6 +29,7 @@ if [ -z "$f" ]
 		i=0
 	else
 		check_on_other_node
+		
 		for service in neutron-openvswitch-agent neutron-metadata-agent neutron-dhcp-agent neutron-l3-agent
 		do 
 			flag=$(systemctl status $service | grep 'active (running)')
