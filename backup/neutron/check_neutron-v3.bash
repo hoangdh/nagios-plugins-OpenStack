@@ -17,10 +17,7 @@ for service in $services
 		node=`cat /tmp/info_neutron.h2 | grep -w "xxx" | grep -w "$service" | awk  '{ print $4 }' FS="|" | sort -u`
 		echo -e "$node:\t$service" >> /tmp/err_neutron.h2
 	done
-
 }
-
-
 
 i=0
 f=$(systemctl status neutron-server | grep 'active (running)')
@@ -40,11 +37,11 @@ fi
 rm -rf /tmp/info_neutron.h2
 
 case $i in
-	9999999)
+	99999)
 		echo "OK. Neutron-server is running."
 		exit 0
 		;;
-	[1-9998]*)
+	[1-99998]*)
 		s=`cat /tmp/err_neutron.h2` 
 		rm -rf /tmp/err_neutron.h2
 		echo -e "WARNING. Neutron-agent is/are not running.\n$s"
