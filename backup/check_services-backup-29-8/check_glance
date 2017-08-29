@@ -1,9 +1,9 @@
 #!/bin/bash
 ###
 #
-# Check Neutron Service
+# Check Glance Service
 # Author: HoangDH - daohuyhoang87@gmail.com
-# Release: 23/8/2017 - 3:55PM
+# Release: 24/8/2017 - 3:55PM
 #
 ###
 i=0
@@ -17,7 +17,6 @@ do
 		echo $service >> /tmp/glance-service.h2
 	fi
 done 
-
 
 case $i in
 	2)

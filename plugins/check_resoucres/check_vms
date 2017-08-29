@@ -13,5 +13,5 @@ vms_total=$(cat /tmp/server_list.h2 | awk  '{ print $3 }' FS="|" | grep -Ev "^ N
 vms_run=$(cat /tmp/server_list.h2 | grep -w "ACTIVE" | awk  '{ print $3 }' FS="|" | wc -l)
 rm -rf /tmp/server_list.h2
 
-echo "Server Running: $vms_run | Server non-running: $(expr $vms_total - $vms_run)/$vms_total"
+echo "Server Running: $vms_run ; Server non-running: $(expr $vms_total - $vms_run)/$vms_total"
 exit 0

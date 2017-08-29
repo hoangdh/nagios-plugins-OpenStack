@@ -3,13 +3,13 @@
 #
 # Check Nova Service
 # Author: HoangDH - daohuyhoang87@gmail.com
-# Release: 29/8/2017 - 5:30PM
+# Release: 24/8/2017 - 3:20PM
 #
 ###
 
 check_on_other_node() {
 source /root/keystonerc_admin
-openstack compute service list > /tmp/info_nova.h2
+openstack compute service list >> /tmp/info_nova.h2
 services=`cat /tmp/info_nova.h2 | grep -w "down" | awk  '{ print $3 }' FS="|" | sort -u`
 
 for service in $services
@@ -17,7 +17,6 @@ for service in $services
 		node=`cat /tmp/info_nova.h2 | grep -w "down" | grep -w "$service" | awk  '{ print $4 }' FS="|" | sort -u`
 		echo -e "$service: "$node >> /tmp/err_nova.h2
 	done
-
 }
 
 i=0
@@ -42,7 +41,7 @@ case $i in
 		echo "Nova-api is running."
 		exit 0
 		;;
-	[1-99999]*)
+	[1-99998]*)
 		s=`cat /tmp/err_nova.h2` 
 		rm -rf /tmp/err_nova.h2
 		echo -e "Nova is not running.\n$s"

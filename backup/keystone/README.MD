@@ -1,0 +1,7 @@
+- Đầu tiên, check dịch vụ `httpd`
+	- Nếu lỗi, cảnh báo Cirtical
+	- Nếu chạy, check tiếp 2 port 5000 và 35357
+		- Nếu chạy, Lấy token
+			- Nếu chạy -> OK
+			- Nếu không chạy, Báo lỗi File biến Môi trường
+		- Không chạy -> Warning

@@ -1,0 +1,7 @@
+- Đầu tiên, check dịch vụ `openstack-cinder-api`
+	- Nếu lỗi, cảnh báo Cirtical
+	- Nếu chạy, check tiếp các dịch vụ bằng câu lệnh `openstack volume service list`
+		- Kiểm tra lần lượt các dịch vụ DOWN (trên từng node)
+			- cinder-backup 
+			- cinder-volume 
+			- cinder-scheduler

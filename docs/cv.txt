@@ -3,9 +3,15 @@ X - So VM
 	- VM dang off
 X - Network
 	- TOng network
+	- So IP da duoc cap
 X - Volume
 	- Tong so volume hien co
 	- So volume da dc dung
 	- So volume chua dc dung
 - Image
 	- Tong so Image
+	
+	 ffmpeg -i in.jpg 
+-filter_complex 
+"zoompan=z='zoom+0.002':d=25*4:s=1280x800" 
+-pix_fmt yuv420p -c:v libx264 out.mp4
