@@ -1,6 +1,14 @@
-## Hướng dẫn sử dụng vào check_mk và nagios
+## Hướng dẫn sử dụng trên check_mk và nagios
 
-### Tải plugin
+- [1. Tải Plugin](#1)
+- [2. Cấu hình check_mk](#2)
+- [3. Cấu hình check_mk](#3)
+
+<a name="1" />
+
+### 1. Tải plugin
+
+**Chú ý**: Các bước này làm trên node `controller` của OpenStack
 
 - Tải plugin ở 2 thư mục `check_resoucres` và `check_services`
 
@@ -17,7 +25,9 @@ cd /opt/check_openstack
 chmod +x *
 ```
 
-### check_mk
+<a name="2" />
+
+### 2. Cấu hình check_mk
 
 **Chú ý**: Các bước này làm trên node `controller` của OpenStack
 
@@ -56,7 +66,9 @@ PluginsDirectory: /usr/lib/check_mk_agent/plugins
 	OPENSTACK_VMs_State /usr/lib/check_mk_agent/plugins/check_instances_state
 	```
 
-### Nagios Core
+<a name="3" />
+	
+### 3. Nagios Core
 
 **Chú ý:** Các bước làm trên node `controller` của OpenStack
 
