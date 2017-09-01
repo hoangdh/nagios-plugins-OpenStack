@@ -8,7 +8,14 @@
 https://github.com/hoangdh/meditech-ghichep-omd/tree/master/tools/check_openstack
 ```
 
-- 
+Ví dụ, chúng ta tải các plugin về thư mục `/opt/check_openstack`
+
+- Phân quyền cho các plugins
+
+```
+cd /opt/check_openstack
+chmod +x *
+```
 
 ### check_mk
 
@@ -55,21 +62,21 @@ PluginsDirectory: /usr/lib/check_mk_agent/plugins
 
 - **Bước 1**: Copy các file plugin
 
-(Hướng dẫn cài đặt NRPE trên máy cần giám sát.](https://github.com/hoangdh/meditech-ghichep-nagios/blob/master/docs/thuchanh-nagios/1.Setup-CentOS-7.md#312-cài-đặt-nrpe-trên-host-cần-giám-sát)
+(Hướng dẫn cài đặt NRPE trên máy cần giám sát.](https://github.com//meditech-ghichep-nagios/blob/master/docs/thuchanh-nagios/1.Setup-CentOS-7.md#3.1.2)
 
 **Thư mục mặc định:**
 
-	- Trên CentOS 
+- Trên CentOS 
 
-	```
-	/usr/lib64/nagios/plugins
-	```
+```
+/usr/lib64/nagios/plugins
+```
 
-	- Trên Ubuntu
+- Trên Ubuntu
 
-	```
-	/usr/lib/nagios/plugins
-	```
+```
+/usr/lib/nagios/plugins
+```
 
 - **Bước 2**: Thêm cấu hình vào file nrpe.
 
