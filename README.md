@@ -5,7 +5,7 @@
 - Tải plugin ở 2 thư mục `check_resoucres` và `check_services`
 
 ```
-https://github.com/hoangdh/meditech-ghichep-omd/tree/master/tools/check_openstack
+https://github.com/hoangdh/nagios-plugin-OpenStack/tree/master/plugins
 ```
 
 Ví dụ, chúng ta tải các plugin về thư mục `/opt/check_openstack`
