@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# based upon 'qemu' from
+# 12/2010 Matthias Henze
+# Lizenz: GPL v2
+#
+# updated for libvirtd (virsh) by
+# Jonathan Mills 09/2011
+#
+# updated by
+# Christian Burmeister 05/2015
+source /root/keystonerc_admin
+nova list --all-tenants > /tmp/all_instance.h2
+nova-manage vm list | grep `hostname` > /tmp/current_instance.h2
+if which nova-manage >/dev/null; then
+	echo '<<<qemu>>>'
+	VMS=$(cat /tmp/current_instance.h2 | grep active | awk {'print $1'})
+	virsh list | grep -v 'State' | grep -v '^--' | grep -v '^$' | while read L
+	do
+		for VM in VMS
+		do
+			NAME=$(echo $L | awk '{print $1}')
+			PID=$(ps aux | grep kvm | grep $NAME | awk '{print $2}')
+			UUID=$(cat /tmp/all_instance.h2 | grep -w vm1 | awk {'print $2'} FS="|" | cut -d " " -f2)
+			STATE=$(echo $L | awk '{print $4}')
+			MEM=$(virsh dominfo $UUID | grep 'Used memory' | awk '{print $3}')
+			ID=$(echo $L | awk '{print $1}')
+			let MEM=MEM/1024
+			
+			
+			if [ $PID -gt 0 ]; then
+				#DATA=$(top -p $PID -n 1 -b | tail -n 2 | head -n 1 | awk -- '{print $9" "$10}')
+				DATA=$(top -p $PID -n 1 -b | tail -1  | awk -- '{print $9" "$10}')
+			else
+				DATA=""
+			fi
+			echo $ID" "$NAME" "$STATE" "$MEM" "$DATA
+		done		
+	done
+fi

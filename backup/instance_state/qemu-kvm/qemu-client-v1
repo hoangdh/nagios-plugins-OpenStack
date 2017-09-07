@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# based upon 'qemu' from
+# 12/2010 Matthias Henze
+# Lizenz: GPL v2
+#
+# updated for libvirtd (virsh) by
+# Jonathan Mills 09/2011
+#
+# updated by
+# Christian Burmeister 05/2015
+#
+# update for OpenStack by
+# HoangDH 09/2017
+#
+# Location: /usr/lib/check_mk_agent/local/
+
+source /root/keystonerc_admin
+nova list --all-tenants > /tmp/all_instance.h2
+nova-manage vm list | grep `hostname` > /tmp/current_instance.h2
+echo '<<<qemu>>>'
+VMS=$(cat /tmp/current_instance.h2 | grep active | awk {'print $1'})
+for VM in $VMS
+	do
+		# Get UUID of Instance
+		UUID=$(cat /tmp/all_instance.h2 | grep -w "$VM" | awk -F "|" {'print $2'} | cut -d " " -f 2)
+		virsh dominfo $UUID > /tmp/vm_info.h2
+		
+		# Get info VM via UUID
+		ID=$(cat /tmp/vm_info.h2 | grep -w "Id:" | awk {'print $2'})
+		NAME=$(cat /tmp/vm_info.h2 | grep -w "Name:" | awk {'print $2'})
+		STATE=$(cat /tmp/vm_info.h2 | grep -w "State:" | awk {'print $2'})
+		MEM=$(cat /tmp/vm_info.h2 | grep -w "Used memory:" | awk {'print $3'})
+		PID=$(ps aux | grep kvm | grep $NAME | awk '{print $2}')
+		let MEM=MEM/1024
+		if [ $PID -gt 0 ]; then
+			#DATA=$(top -p $PID -n 1 -b | tail -n 2 | head -n 1 | awk -- '{print $9" "$10}')
+			DATA=$(top -p $PID -n 1 -b | tail -1  | awk -- '{print $9" "$10}')
+		else
+			DATA=""
+		fi
+		echo $ID" "$VM" "$STATE" "$MEM" "$DATA
+		rm -rf /tmp/vm_info.h2
+	done	
