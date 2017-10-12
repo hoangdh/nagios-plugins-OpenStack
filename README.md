@@ -110,7 +110,7 @@ command[check_networks]=/usr/lib64/nagios/plugins/check_networks
 command[check_instances_state]=/usr/lib64/nagios/plugins/check_instances_state
 ```
 
-Trên file cấu hình của host `controller` trên Nagios, chúng ta sửa file cấu hình như sau:
+Trên file cấu hình của host `controller` trên Nagios Server, chúng ta sửa file cấu hình như sau:
 
 ```
 ...
