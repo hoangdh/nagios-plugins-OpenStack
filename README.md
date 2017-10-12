@@ -2,7 +2,7 @@
 
 - [1. Tải Plugin](#1)
 - [2. Cấu hình check_mk](#2)
-- [3. Cấu hình check_mk](#3)
+- [3. Cấu hình Nagios](#3)
 
 <a name="1" />
 
@@ -110,7 +110,7 @@ command[check_networks]=/usr/lib64/nagios/plugins/check_networks
 command[check_instances_state]=/usr/lib64/nagios/plugins/check_instances_state
 ```
 
-Trên file cấu hình của host `controller` trên OPENSTACK, chúng ta sửa file cấu hình như sau:
+Trên file cấu hình của host `controller` trên Nagios, chúng ta sửa file cấu hình như sau:
 
 ```
 ...
@@ -156,10 +156,10 @@ define service {
         service_description             OPENSTACK_Networks
         check_command                   check_nrpe!check_networks
 }
-define service {
-        use                             generic-service
-        host_name                       controller
-        service_description             OPENSTACK_VMs_State
-        check_command                   check_nrpe!check_instances_state
-}
+# define service {
+        # use                             generic-service
+        # host_name                       controller
+        # service_description             OPENSTACK_VMs_State
+        # # check_command                   check_nrpe!check_instances_state
+# }
 ```
